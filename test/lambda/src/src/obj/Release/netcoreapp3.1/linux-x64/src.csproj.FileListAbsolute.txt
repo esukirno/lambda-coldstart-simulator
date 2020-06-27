@@ -1,0 +1,12 @@
+/src/src/src/bin/Release/netcoreapp3.1/linux-x64/src.deps.json
+/src/src/src/bin/Release/netcoreapp3.1/linux-x64/src.runtimeconfig.json
+/src/src/src/bin/Release/netcoreapp3.1/linux-x64/src.runtimeconfig.dev.json
+/src/src/src/bin/Release/netcoreapp3.1/linux-x64/src.dll
+/src/src/src/bin/Release/netcoreapp3.1/linux-x64/src.pdb
+/src/src/src/obj/Release/netcoreapp3.1/linux-x64/src.csprojAssemblyReference.cache
+/src/src/src/obj/Release/netcoreapp3.1/linux-x64/src.AssemblyInfoInputs.cache
+/src/src/src/obj/Release/netcoreapp3.1/linux-x64/src.AssemblyInfo.cs
+/src/src/src/obj/Release/netcoreapp3.1/linux-x64/src.csproj.CoreCompileInputs.cache
+/src/src/src/obj/Release/netcoreapp3.1/linux-x64/src.dll
+/src/src/src/obj/Release/netcoreapp3.1/linux-x64/src.pdb
+/src/src/src/obj/Release/netcoreapp3.1/linux-x64/src.genruntimeconfig.cache

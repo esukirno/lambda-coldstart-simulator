@@ -1,0 +1,175 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "MetricCollector/1.0.0": {
+        "dependencies": {
+          "AWSSDK.Lambda": "3.3.110.7",
+          "AWSSDK.S3": "3.3.111.18",
+          "AWSSDK.XRay": "3.3.102.51",
+          "Amazon.Lambda.Core": "1.1.0",
+          "Amazon.Lambda.Serialization.SystemTextJson": "2.0.1",
+          "CsvHelper": "15.0.5",
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "MetricCollector.dll": {}
+        }
+      },
+      "Amazon.Lambda.Core/1.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/Amazon.Lambda.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Amazon.Lambda.Serialization.SystemTextJson/2.0.1": {
+        "dependencies": {
+          "Amazon.Lambda.Core": "1.1.0"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Amazon.Lambda.Serialization.SystemTextJson.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "AWSSDK.Core/3.3.107.17": {
+        "runtime": {
+          "lib/netstandard2.0/AWSSDK.Core.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.3.107.17"
+          }
+        }
+      },
+      "AWSSDK.Lambda/3.3.110.7": {
+        "dependencies": {
+          "AWSSDK.Core": "3.3.107.17"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AWSSDK.Lambda.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.3.110.7"
+          }
+        }
+      },
+      "AWSSDK.S3/3.3.111.18": {
+        "dependencies": {
+          "AWSSDK.Core": "3.3.107.17"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AWSSDK.S3.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.3.111.18"
+          }
+        }
+      },
+      "AWSSDK.XRay/3.3.102.51": {
+        "dependencies": {
+          "AWSSDK.Core": "3.3.107.17"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AWSSDK.XRay.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.3.102.51"
+          }
+        }
+      },
+      "CsvHelper/15.0.5": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/CsvHelper.dll": {
+            "assemblyVersion": "15.0.0.0",
+            "fileVersion": "15.0.5.0"
+          }
+        }
+      },
+      "Microsoft.CSharp/4.5.0": {},
+      "Newtonsoft.Json/12.0.3": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.3.23909"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MetricCollector/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Amazon.Lambda.Core/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ueGId8b4DEHoVWkHDs3iAJH8IUSAUGu5AqkoI/Syl4RuByzik7lz9IjoImiGAlGhtsQV02MHNeTo04IFjS37gQ==",
+      "path": "amazon.lambda.core/1.1.0",
+      "hashPath": "amazon.lambda.core.1.1.0.nupkg.sha512"
+    },
+    "Amazon.Lambda.Serialization.SystemTextJson/2.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WPtMxw5jwEcVbe0Ro/bF0VDnict/zoCW0r6dfRIIOthjO+fVMgDyGYa4Pkz6ptgCCFcnhQuOq6iebYw1LRZeIQ==",
+      "path": "amazon.lambda.serialization.systemtextjson/2.0.1",
+      "hashPath": "amazon.lambda.serialization.systemtextjson.2.0.1.nupkg.sha512"
+    },
+    "AWSSDK.Core/3.3.107.17": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LO2a4lYbcmRFyLlxAiZnrWURURyLEIbpGI+LKqtBxZB/3f7J56i3+sZyh6gZ3HmIVL2E7hh1eL9SQ1X/lIvSGQ==",
+      "path": "awssdk.core/3.3.107.17",
+      "hashPath": "awssdk.core.3.3.107.17.nupkg.sha512"
+    },
+    "AWSSDK.Lambda/3.3.110.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DMiEirUZq+bljUkT6JvXgjqhiH7UzC1SmdxPag7r+UqsHyhXXpiGVIiqvQAhr46eZd10JvpUQWp9q8uiJXiAew==",
+      "path": "awssdk.lambda/3.3.110.7",
+      "hashPath": "awssdk.lambda.3.3.110.7.nupkg.sha512"
+    },
+    "AWSSDK.S3/3.3.111.18": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ceqOaipJLSRVyrbK3e1M/+x0oqOR64WhfFNZDtjN3OJS1tP/dLThlG4SEFGnvPAtwbuTJtg6qqlHS0suSsXe4w==",
+      "path": "awssdk.s3/3.3.111.18",
+      "hashPath": "awssdk.s3.3.3.111.18.nupkg.sha512"
+    },
+    "AWSSDK.XRay/3.3.102.51": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8CsCJdzm8H1xUswscxAuGBrsG9RjeRrx15Iv4LYYEYcqpY81QBFFyh00oS3bs3xm7FCDyDTr9pHIBhOjfZwsHA==",
+      "path": "awssdk.xray/3.3.102.51",
+      "hashPath": "awssdk.xray.3.3.102.51.nupkg.sha512"
+    },
+    "CsvHelper/15.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HPoE5nASoFXqoXKSi5yEBam7TzDrtC8WESA4xq53JtPKV8Mm+IKRuN+FJyMoJg1Whv/NG4JiCUs9yUcaSY/ziQ==",
+      "path": "csvhelper/15.0.5",
+      "hashPath": "csvhelper.15.0.5.nupkg.sha512"
+    },
+    "Microsoft.CSharp/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kaj6Wb4qoMuH3HySFJhxwQfe8R/sJsNJnANrvv8WdFPMoNbKY5htfNscv+LHCu5ipz+49m2e+WQXpLXr9XYemQ==",
+      "path": "microsoft.csharp/4.5.0",
+      "hashPath": "microsoft.csharp.4.5.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/12.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "path": "newtonsoft.json/12.0.3",
+      "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+    }
+  }
+}

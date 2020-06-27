@@ -1,0 +1,26 @@
+version: '2.0'
+services:
+  dotnetcore21:
+    image: mcr.microsoft.com/dotnet/core/sdk:2.1
+    volumes:
+      - ../lambdas/hello-dotnetcore21:/src
+    command: >
+      bash -c "dotnet publish src --configuration Release"
+  dotnetcore31:
+    image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    volumes:
+      - ../lambdas/hello-dotnetcore31:/src
+    command: >
+      bash -c "dotnet publish src --configuration Release"
+  # dotnetcore31_sc:
+  #   image: mcr.microsoft.com/dotnet/core/sdk:3.1
+  #   volumes:
+  #     - ../lambdas/hello-dotnetcore31-sc:/src
+  #   command: >
+  #     bash -c "dotnet publish src --configuration Release --framework netcoreapp3.1 --runtime linux-x64 --self-contained"
+  dotnetcore31_rtr:
+    image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    volumes:
+      - ../lambdas/hello-dotnetcore31-rtr:/src
+    command: >
+      bash -c "apt update && dotnet publish src --configuration Release --framework netcoreapp3.1 --runtime linux-x64 /p:PublishReadyToRun=true"

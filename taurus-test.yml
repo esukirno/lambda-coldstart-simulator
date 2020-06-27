@@ -1,0 +1,30 @@
+execution:
+- concurrency: 5
+  ramp-up: 20s
+  hold-for: 2m
+  scenario: DotNetCore31Lambda
+  
+- concurrency: 5
+  ramp-up: 20s
+  hold-for: 2m
+  scenario: DotNetCore31RTRLambda
+  
+- concurrency: 5
+  ramp-up: 20s
+  hold-for: 2m
+  scenario: DotNetCore21Lambda
+ 
+
+scenarios:
+  DotNetCore31Lambda:
+    default-address: https://175k9tjub8.execute-api.ap-southeast-2.amazonaws.com/
+    requests: 
+      - /prod/dotnetcore31
+  DotNetCore31RTRLambda:
+    default-address: https://175k9tjub8.execute-api.ap-southeast-2.amazonaws.com/
+    requests: 
+      - /prod/dotnetcore31RTR
+  DotNetCore21Lambda:
+    default-address: https://175k9tjub8.execute-api.ap-southeast-2.amazonaws.com/
+    requests: 
+      - /prod/dotnetcore21

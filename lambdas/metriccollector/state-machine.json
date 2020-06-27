@@ -1,0 +1,27 @@
+{
+  "Comment": "State Machine",
+  "StartAt": "Setup",
+  "States": {
+    "Setup": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:ap-southeast-2:123456789012:function:sqsconnector-SeedingFunction-T3U43VYDU5OQ",
+      "Next": "WaitToActivate"
+    },
+
+    "Greeting": {
+      "Type": "Task",
+      "Resource": "${GreetingTask.Arn}",
+      "Next": "WaitToActivate"
+    },
+    "WaitToActivate": {
+      "Type": "Wait",
+      "SecondsPath": "$.WaitInSeconds",
+      "Next": "Salutations"
+    },
+    "Salutations": {
+      "Type": "Task",
+      "Resource": "${SalutationsTask.Arn}",
+      "End": true
+    }
+  }
+}
