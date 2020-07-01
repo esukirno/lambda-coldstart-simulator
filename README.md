@@ -1,5 +1,9 @@
 # Cold Start Lambda simulator
 
+## Simulation workflow
+
+![Simulation workflow](/simulation-workflow.png)
+
 ## Build and Deploy
 
 ### 1. Build Amazon Linux 2 docker image
@@ -26,10 +30,9 @@ cd deploy
 cdk deploy *
 ```
 
-For more information visit 
-
 ## References
 
+* [AWS Lambda support for .net core 3.1 announcement](https://aws.amazon.com/blogs/compute/announcing-aws-lambda-supports-for-net-core-3-1/)
 * [Understanding Lambda csharp tracing](https://docs.aws.amazon.com/lambda/latest/dg/csharp-tracing.html)
 * [AWS docker images github repo](https://github.com/aws/aws-codebuild-docker-images)
 * [Quicksight manifest file format](https://docs.aws.amazon.com/quicksight/latest/user/supported-manifest-file-format.html)
