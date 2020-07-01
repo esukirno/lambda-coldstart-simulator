@@ -14,16 +14,16 @@ using CsvHelper;
 using System.IO;
 using System.Globalization;
 using Newtonsoft.Json;
-using CsvHelper.Configuration;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
-namespace MetricCollector
+namespace ColdStartSimulator
 {
     public class StepFunctionTasks
     {
         private const int DefaultCount = 2;
+        private const int XRayBatchSize = 5;
 
         /// <summary>
         /// Default constructor that Lambda will invoke.
@@ -49,7 +49,7 @@ namespace MetricCollector
 
         public async Task<State> TouchLambda(State state, ILambdaContext context)
         {
-            var client = new AmazonLambdaClient(Amazon.RegionEndpoint.APSoutheast2);
+            var client = new AmazonLambdaClient(RegionEndpoint.APSoutheast2);
             var variables = new Dictionary<string, string>();
             variables["LastTouched"] = DateTime.UtcNow.ToString();
 
@@ -71,8 +71,8 @@ namespace MetricCollector
 
         public async Task<State> InvokeLambda(State state, ILambdaContext context)
         {
-            var client = new AmazonLambdaClient(Amazon.RegionEndpoint.APSoutheast2);
-            var invokeRequest = new Amazon.Lambda.Model.InvokeRequest
+            var client = new AmazonLambdaClient(RegionEndpoint.APSoutheast2);
+            var invokeRequest = new InvokeRequest
             {
                 FunctionName = state.FunctionName
             };
@@ -85,7 +85,7 @@ namespace MetricCollector
             return state;
         }
 
-        public async Task<State> CollectStats(State state, ILambdaContext context)
+        public async Task<State> CollectMetrics(State state, ILambdaContext context)
         {
             state.EndTimeInEpoch = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
@@ -99,34 +99,38 @@ namespace MetricCollector
 
             var getTraceSummariesResponse = await client.GetTraceSummariesAsync(getTraceSummariesRequest);
             var traceIds = getTraceSummariesResponse.TraceSummaries.Select(x => x.Id);
+            var traces = new List<Trace>();
 
-            var request = new BatchGetTracesRequest
+            foreach (var batchIds in Batch(traceIds, XRayBatchSize))
             {
-                TraceIds = traceIds.ToList()
-            };
-            var response = await client.BatchGetTracesAsync(request);
+                var request = new BatchGetTracesRequest
+                {
+                    TraceIds = batchIds.ToList(),
+                };
+                var response = await client.BatchGetTracesAsync(request);
+                traces.AddRange(response.Traces);
+            }
 
             var metrics = new List<LambdaMetric>();
-
-            foreach (var trace in response.Traces)
+            foreach (var trace in traces)
             {
                 foreach (var segment in trace.Segments)
                 {
-                    var document = JsonConvert.DeserializeObject<Document>(segment.Document);
+                    var document = JsonConvert.DeserializeObject<XRayLambdaTrace.Document>(segment.Document);
                     Console.WriteLine(segment.Document);
                     if (document.name == state.FunctionName)
                     {
                         if (document.origin == "AWS::Lambda::Function")
                         {
-                            metrics.Add(CreateLambdaMetric1(document, document.trace_id, document.name, document.origin, "Total"));
+                            metrics.Add(CreateLambdaMetric(document, document.trace_id, document.name, document.origin, "Total"));
                             foreach (var subSegment in document.subsegments)
                             {
-                                metrics.Add(CreateLambdaMetric2(subSegment, document.trace_id, document.name, document.origin, null));
+                                metrics.Add(CreateLambdaMetric(subSegment, document.trace_id, document.name, document.origin, null));
                             }
                         }
                         else if (document.origin == "AWS::Lambda")
                         {
-                            metrics.Add(CreateLambdaMetric1(document, document.trace_id, document.name, document.origin, "Total"));
+                            metrics.Add(CreateLambdaMetric(document, document.trace_id, document.name, document.origin, "Total"));
                         }
                     }
                 }
@@ -142,10 +146,11 @@ namespace MetricCollector
             }
 
             var bucketName = System.Environment.GetEnvironmentVariable("MetricS3BucketName");
+            var now = DateTime.Now;
             var putObjectRequest = new PutObjectRequest
             {
                 BucketName = bucketName,
-                Key = DateTime.Today.ToString("yyyy-MM-dd") + "/" + DateTime.Now.ToString("hhmmss") + ".csv",
+                Key = $"{now:yyyy-MM-dd}/{state.FunctionName}-{now:HHmmss}.csv",
                 ContentType = "text/csv",
                 ContentBody = contentBody
             };
@@ -156,7 +161,7 @@ namespace MetricCollector
             return state;
         }
 
-        private LambdaMetric CreateLambdaMetric1(Document document, string traceId, string functionName, string origin, string name)
+        private LambdaMetric CreateLambdaMetric(XRayLambdaTrace.Document document, string traceId, string functionName, string origin, string name)
         {
             if (name == null)
             {
@@ -177,84 +182,43 @@ namespace MetricCollector
             return metric;
         }
 
-        private LambdaMetric CreateLambdaMetric2(Subsegment document, string traceId, string functionName, string origin, string name)
+        private LambdaMetric CreateLambdaMetric(XRayLambdaTrace.Subsegment subSegment, string traceId, string functionName, string origin, string name)
         {
             if (name == null)
             {
-                name = document.name;
+                name = subSegment.name;
             }
 
-            var duration = document.end_time - document.start_time;
+            var duration = subSegment.end_time - subSegment.start_time;
             var metric = new LambdaMetric
             {
                 FunctionName = functionName,
                 TraceType = origin,
                 TraceId = traceId,
                 MetricName = name,
-                StartTime = document.start_time,
-                EndTime = document.end_time,
+                StartTime = subSegment.start_time,
+                EndTime = subSegment.end_time,
                 Duration = duration
             };
             return metric;
         }
-    }
 
-    public class LambdaMetric
-    {
-        public string FunctionName { get; set; }
-        public string TraceId { get; set; }
-        public string TraceType { get; set; }
-        public string MetricName { get; set; }
-        public double StartTime { get; set; }
-        public double EndTime { get; set; }
-        public double Duration { get; set; }
-    }
-
-    public class LambdaMetricMap : ClassMap<LambdaMetric>
-    {
-        public LambdaMetricMap()
+        public static IEnumerable<IEnumerable<TSource>> Batch<TSource>(IEnumerable<TSource> source, int batchSize)
         {
-            Map(m => m.FunctionName).Index(0).Name("FunctionName");
-            Map(m => m.TraceId).Index(0).Name("TraceId");
-            Map(m => m.TraceType).Index(0).Name("TraceType");
-            Map(m => m.MetricName).Index(0).Name("MetricName");
-            Map(m => m.StartTime).Index(0).Name("StartTime");
-            Map(m => m.EndTime).Index(0).Name("EndTime");
-            Map(m => m.Duration).Index(0).Name("Duration");
+            var items = new TSource[batchSize];
+            var count = 0;
+            foreach (var item in source)
+            {
+                items[count++] = item;
+                if (count == batchSize)
+                {
+                    yield return items;
+                    items = new TSource[batchSize];
+                    count = 0;
+                }
+            }
+            if (count > 0)
+                yield return items.Take(count);
         }
-    }
-
-    public class Aws
-    {
-        public string account_id { get; set; }
-        public string function_arn { get; set; }
-        public List<string> resource_names { get; set; }
-    }
-
-    public class Aws2
-    {
-        public string function_arn { get; set; }
-    }
-
-    public class Subsegment
-    {
-        public string id { get; set; }
-        public string name { get; set; }
-        public double start_time { get; set; }
-        public double end_time { get; set; }
-        public Aws2 aws { get; set; }
-    }
-
-    public class Document
-    {
-        public string id { get; set; }
-        public string name { get; set; }
-        public double start_time { get; set; }
-        public string trace_id { get; set; }
-        public double end_time { get; set; }
-        public string parent_id { get; set; }
-        public Aws aws { get; set; }
-        public string origin { get; set; }
-        public List<Subsegment> subsegments { get; set; }
     }
 }

@@ -3,9 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deploy", ".\deploy\src\Deploy\Deploy.csproj", "{FDED0C01-B562-480C-9E86-5B4E40AB3A36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deploy", "deploy\src\Deploy\Deploy.csproj", "{FDED0C01-B562-480C-9E86-5B4E40AB3A36}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetricCollector", ".\lambdas\metriccollector\MetricCollector.csproj", "{843FC5F0-6C46-43EF-A544-D846905D3ADE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColdStartSimulator", "lambdas\coldstartsimulator\ColdStartSimulator.csproj", "{843FC5F0-6C46-43EF-A544-D846905D3ADE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{440FFE49-E7D6-4F1B-A465-D41F4EF1AA73}"
+	ProjectSection(SolutionItems) = preProject
+		build\docker-compose.yml = build\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "amazonlinux2-dotnetsdk", "amazonlinux2-dotnetsdk", "{BC19AFD9-C995-4CAD-9320-E575833A8266}"
+	ProjectSection(SolutionItems) = preProject
+		build\amazonlinux2-dotnetsdk\Dockerfile = build\amazonlinux2-dotnetsdk\Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{D2E660D3-9B5D-4D90-8D09-996E6CF97EC1}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +39,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BC19AFD9-C995-4CAD-9320-E575833A8266} = {440FFE49-E7D6-4F1B-A465-D41F4EF1AA73}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {48E30E20-E7FA-4B36-A32D-D82E5B957895}

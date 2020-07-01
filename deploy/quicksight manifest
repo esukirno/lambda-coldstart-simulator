@@ -1,0 +1,15 @@
+{
+    "fileLocations": [
+        {
+            "URIPrefixes": [
+                "https://s3.amazonaws.com/coldstart-metric-bucket"
+            ]
+        }
+    ],
+    "globalUploadSettings": {
+        "format": "CSV",
+        "delimiter": ",",
+        "textqualifier": "'",
+        "containsHeader": "true"
+    }
+}

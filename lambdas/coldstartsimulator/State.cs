@@ -1,4 +1,4 @@
-﻿namespace MetricCollector
+﻿namespace ColdStartSimulator
 {
     /// <summary>
     /// The state passed between the step function executions.
