@@ -1,9 +1,0 @@
-version: 0.2
-
-phases:
-  build:
-    commands:
-      - 'dotnet publish --configuration Release --framework netcoreapp3.1 --runtime linux-x64 /p:PublishReadyToRun=true /p:TieredCompilation=false /p:TieredCompilationQuickJit=false'
-artifacts:
-  files:
-    - ./bin/Release/netcoreapp3.1/linux-x64/publish/*
